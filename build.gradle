@@ -46,10 +46,12 @@ tasks.named('test') {
 }
 
 sentry {
-    // Disable source context to prevent Sentry CLI from trying to connect to the server during build
+    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+    // This enables source context, allowing you to see your source
+    // code as part of your stack traces in Sentry.
     includeSourceContext = false
 
     org = 'sentry'
     projectName = 'apm-test'
-    authToken = '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'
+    authToken = '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'
 }

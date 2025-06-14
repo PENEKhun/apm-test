@@ -42,8 +42,6 @@ management:
 
 sentry:
   dsn: http://81e8ea40ce8a7591b6bd7beb7c359ee2@localhost:9000/2
-  environment: development
-  sample-rate: 1.0
-  debug: true
-  traces-sample-rate: 1.0
+#  debug: true
+#  traces-sample-rate: 1.0
   send-default-pii: true

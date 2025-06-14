@@ -32,6 +32,9 @@ COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080
 
 ENV SENTRY_AUTO_INIT=false
+ENV OTEL_TRACES_EXPORTER=none
+ENV OTEL_METRICS_EXPORTER=none
+ENV OTEL_LOGS_EXPORTER=none
 ENV JAVA_TOOL_OPTIONS="-javaagent:sentry-opentelemetry-agent-8.13.3.jar"
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

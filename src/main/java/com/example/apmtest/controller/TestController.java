@@ -3,6 +3,7 @@ package com.example.apmtest.controller;
 import com.example.apmtest.entity.mysql.User;
 import com.example.apmtest.entity.oracle.Product;
 import com.example.apmtest.service.TestService;
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,17 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
 
     private final TestService testService;
+
+    @GetMapping("/error")
+    public String error() {
+        try {
+            throw new Exception("This is a test.");
+        } catch (Exception e) {
+            Sentry.captureException(e);
+        }
+
+        return "error";
+    }
 
     @GetMapping("/test")
     public String test() {
