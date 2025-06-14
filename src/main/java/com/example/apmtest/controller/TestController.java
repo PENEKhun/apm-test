@@ -5,8 +5,10 @@ import com.example.apmtest.entity.oracle.Product;
 import com.example.apmtest.service.TestService;
 import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class TestController {
     @GetMapping("/error")
     public String error() {
         try {
+            log.info("/api/error");
             throw new Exception("This is a test.");
         } catch (Exception e) {
             Sentry.captureException(e);
