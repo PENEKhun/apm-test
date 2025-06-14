@@ -46,7 +46,7 @@ sentry:
 #  debug: true
   traces-sample-rate: 1.0
   send-default-pii: true
-  logging:
-    minimum-breadcrumb-level: info
-    minimum-event-level: info
+#  logging:
+#    minimum-breadcrumb-level: info
+#    minimum-event-level: info
 

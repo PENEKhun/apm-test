@@ -57,3 +57,8 @@ sentry {
     projectName = 'apm-test'
     authToken = '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'
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += "-parameters"
+}
+

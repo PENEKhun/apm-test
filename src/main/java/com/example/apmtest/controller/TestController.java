@@ -57,9 +57,9 @@ public class TestController {
      * Database error endpoints for MySQL
      */
     @GetMapping("/db-error/mysql/find")
-    public ResponseEntity<?> findNonExistentUser() {
+    public ResponseEntity<?> findNonExistentUser(@RequestParam(defaultValue = "999999") Long userId) {
         try {
-            User user = testService.findNonExistentUser();
+            User user = testService.findNonExistentUser(userId);
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             log.error("Error finding non-existent user", e);
@@ -69,9 +69,9 @@ public class TestController {
     }
 
     @GetMapping("/db-error/mysql/delete")
-    public ResponseEntity<?> deleteNonExistentUser() {
+    public ResponseEntity<?> deleteNonExistentUser(@RequestParam(defaultValue = "999999") Long userId) {
         try {
-            testService.deleteNonExistentUser();
+            testService.deleteNonExistentUser(userId);
             return ResponseEntity.ok("User deleted successfully");
         } catch (EmptyResultDataAccessException e) {
             log.error("Error deleting non-existent user", e);
@@ -81,9 +81,10 @@ public class TestController {
     }
 
     @GetMapping("/db-error/mysql/create-invalid")
-    public ResponseEntity<?> createInvalidUser() {
+    public ResponseEntity<?> createInvalidUser(@RequestParam(required = false) String name, 
+                                              @RequestParam(required = false) String email) {
         try {
-            User user = testService.createInvalidUser();
+            User user = testService.createInvalidUser(name, email);
             return ResponseEntity.ok(user);
         } catch (DataIntegrityViolationException e) {
             log.error("Error creating invalid user", e);

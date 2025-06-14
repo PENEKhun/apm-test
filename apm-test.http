@@ -9,14 +9,29 @@ GET http://localhost:8080/api/sentry-test
 
 ### MySQL Database Error Tests
 
-### Find non-existent user
+### Find non-existent user (with default ID)
 GET http://localhost:8080/api/db-error/mysql/find
 
-### Delete non-existent user
+### Find non-existent user (with specific ID)
+GET http://localhost:8080/api/db-error/mysql/find?userId=12345
+
+### Delete non-existent user (with default ID)
 GET http://localhost:8080/api/db-error/mysql/delete
 
-### Create invalid user
+### Delete non-existent user (with specific ID)
+GET http://localhost:8080/api/db-error/mysql/delete?userId=12345
+
+### Create invalid user (with null values)
 GET http://localhost:8080/api/db-error/mysql/create-invalid
+
+### Create invalid user (with name only)
+GET http://localhost:8080/api/db-error/mysql/create-invalid?name=TestUser
+
+### Create invalid user (with email only)
+GET http://localhost:8080/api/db-error/mysql/create-invalid?email=test@example.com
+
+### Create invalid user (with both name and email)
+GET http://localhost:8080/api/db-error/mysql/create-invalid?name=TestUser&email=test@example.com
 
 ### Oracle Database Error Tests (will fail if Oracle is not enabled)
 

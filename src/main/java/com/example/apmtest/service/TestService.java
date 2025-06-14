@@ -55,13 +55,15 @@ public class TestService {
     /**
      * Intentionally causes a database error by trying to find a non-existent user
      * This will generate a NoSuchElementException that Sentry can capture
+     * 
+     * @param userId the ID of the user to find (typically a non-existent ID)
      */
     @Transactional(readOnly = true)
-    public User findNonExistentUser() {
+    public User findNonExistentUser(Long userId) {
         try {
-            // Try to find a user with an ID that doesn't exist
-            return userRepository.findById(999999L)
-                    .orElseThrow(() -> new NoSuchElementException("User not found with ID: 999999"));
+            // Try to find a user with the provided ID (which likely doesn't exist)
+            return userRepository.findById(userId)
+                    .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
         } catch (Exception e) {
             // Log the exception to Sentry
             Sentry.captureException(e);
@@ -73,12 +75,14 @@ public class TestService {
     /**
      * Intentionally causes a database error by trying to delete a non-existent user
      * This will generate an EmptyResultDataAccessException that Sentry can capture
+     * 
+     * @param userId the ID of the user to delete (typically a non-existent ID)
      */
     @Transactional
-    public void deleteNonExistentUser() {
+    public void deleteNonExistentUser(Long userId) {
         try {
-            // Try to delete a user with an ID that doesn't exist
-            userRepository.deleteById(999999L);
+            // Try to delete a user with the provided ID (which likely doesn't exist)
+            userRepository.deleteById(userId);
         } catch (EmptyResultDataAccessException e) {
             // Log the exception to Sentry
             Sentry.captureException(e);
@@ -90,17 +94,24 @@ public class TestService {
     /**
      * Intentionally causes a database error by trying to create a user with invalid data
      * This will generate a DataIntegrityViolationException due to null values for required fields
+     * 
+     * @param name the name of the user (can be null to trigger validation error)
+     * @param email the email of the user (can be null to trigger validation error)
      */
     @Transactional
-    public User createInvalidUser() {
+    public User createInvalidUser(String name, String email) {
         try {
-            // Create a user with null values which will violate not-null constraints
+            // Create a user with the provided values (which might be null)
             User user = new User();
-            // This will cause a DataIntegrityViolationException because name and email are required
+            user.setName(name);
+            user.setEmail(email);
+
+            // This will cause a DataIntegrityViolationException if name or email is null
+            // because they are required fields with @Column(nullable = false)
             User savedUser = userRepository.save(user);
 
             // If we get here, it means the save operation succeeded, which is not what we want
-            // Let's throw an exception manually to ensure it's captured by Sentry
+            // if the parameters were null. Let's throw an exception manually to ensure it's captured by Sentry
             if (savedUser.getName() == null || savedUser.getEmail() == null) {
                 throw new DataIntegrityViolationException("User created with null values for required fields");
             }
