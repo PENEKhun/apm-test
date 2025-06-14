@@ -21,7 +21,7 @@ import java.util.HashMap;
     entityManagerFactoryRef = "oracleEntityManager",
     transactionManagerRef = "oracleTransactionManager"
 )
-@ConditionalOnProperty(prefix = "oracle.datasource", name = "jdbc-url", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "oracle", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class OracleDatabaseConfig {
 
     @Bean(name = "oracleDataSource")

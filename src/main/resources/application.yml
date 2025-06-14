@@ -20,6 +20,7 @@ mysql:
 
 # Oracle 설정
 oracle:
+  enabled: false  # Oracle 데이터베이스 연결을 비활성화
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     jdbc-url: jdbc:oracle:thin:@localhost:1521/XEPDB1
@@ -41,7 +42,7 @@ management:
       show-details: always
 
 sentry:
-  dsn: http://316a68a710445f5eefbebdcba73e1abf@localhost:9000/3
-  debug: true
+  dsn: http://316a68a710445f5eefbebdcba73e1abf@localhost:9000/4
+#  debug: true
 #  traces-sample-rate: 1.0
   send-default-pii: true
