@@ -4,32 +4,32 @@ server:
 spring:
   application:
     name: apm-test
-  
-  # MySQL 설정
+
+# MySQL 설정
+mysql:
   datasource:
-    mysql:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/apmtest?useSSL=false&serverTimezone=UTC
-      username: user
-      password: password
-    oracle:
-      driver-class-name: oracle.jdbc.OracleDriver
-      url: jdbc:oracle:thin:@localhost:1521/XEPDB1
-      username: system
-      password: oracle
-  
-  # JPA 설정
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/apmtest?useSSL=false&serverTimezone=UTC
+    username: user
+    password: password
   jpa:
-    mysql:
-      database-platform: org.hibernate.dialect.MySQLDialect
-      hibernate:
-        ddl-auto: update
-      show-sql: true
-    oracle:
-      database-platform: org.hibernate.dialect.OracleDialect
-      hibernate:
-        ddl-auto: update
-      show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# Oracle 설정
+oracle:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    jdbc-url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: system
+    password: oracle
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 management:
   endpoints:
@@ -38,4 +38,10 @@ management:
         include: health,info,metrics
   endpoint:
     health:
-      show-details: always 
+      show-details: always
+
+sentry:
+  dsn: ${SENTRY_DSN:}
+  environment: local
+  traces-sample-rate: 1.0
+  debug: true 

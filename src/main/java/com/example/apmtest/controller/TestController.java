@@ -27,4 +27,9 @@ public class TestController {
     public Product createProduct(@RequestParam String name, @RequestParam Double price) {
         return testService.createProduct(name, price);
     }
+
+    @GetMapping("/sentry-test")
+    public String sentryTest() {
+        throw new RuntimeException("Sentry 연동 테스트용 예외!");
+    }
 } 

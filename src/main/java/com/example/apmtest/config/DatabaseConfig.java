@@ -25,15 +25,19 @@ public class DatabaseConfig {
 
     @Primary
     @Bean(name = "mysqlDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.mysql")
+    @ConfigurationProperties(prefix = "mysql.datasource")
     public DataSource mysqlDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+            .type(com.zaxxer.hikari.HikariDataSource.class)
+            .build();
     }
 
     @Bean(name = "oracleDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.oracle")
+    @ConfigurationProperties(prefix = "oracle.datasource")
     public DataSource oracleDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+            .type(com.zaxxer.hikari.HikariDataSource.class)
+            .build();
     }
 
     @Primary
