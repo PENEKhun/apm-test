@@ -1,3 +1,32 @@
-### create user
+### Create user
 POST http://localhost:8080/api/users?name=penek&email=penekhun@gmail.com
 
+### Create product (will fail if Oracle is not enabled)
+POST http://localhost:8080/api/products?name=TestProduct&price=19.99
+
+### Test basic Sentry integration
+GET http://localhost:8080/api/sentry-test
+
+### MySQL Database Error Tests
+
+### Find non-existent user
+GET http://localhost:8080/api/db-error/mysql/find
+
+### Delete non-existent user
+GET http://localhost:8080/api/db-error/mysql/delete
+
+### Create invalid user
+GET http://localhost:8080/api/db-error/mysql/create-invalid
+
+### Oracle Database Error Tests (will fail if Oracle is not enabled)
+
+### Find non-existent product
+GET http://localhost:8080/api/db-error/oracle/find
+
+### Delete non-existent product
+GET http://localhost:8080/api/db-error/oracle/delete
+
+### General Database Error Simulation
+
+### Simulate database error
+GET http://localhost:8080/api/db-error/simulate
