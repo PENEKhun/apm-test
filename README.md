@@ -61,6 +61,14 @@ sentry {
 }
 ```
 
+5. Application 실행
+
+```bash
+./gradlew build -xTest
+export OTEL_LOGS_EXPORTER=none;OTEL_METRICS_EXPORTER=none;OTEL_TRACES_EXPORTER=none;SENTRY_AUTO_INIT=false;java -javaagent:sentry-opentelemetry-agent-8.13.3.jar -jar build/libs/apm-test-0.0.1-SNAPSHOT.jar
+```
+
+
 ## API 엔드포인트
 
 1. API 테스트
