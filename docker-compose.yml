@@ -81,13 +81,9 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=default
-      - SPRING_DATASOURCE_MYSQL_URL=jdbc:mysql://mysql:3306/apmtest
-      - SPRING_DATASOURCE_MYSQL_USERNAME=user
-      - SPRING_DATASOURCE_MYSQL_PASSWORD=password
-      - SPRING_DATASOURCE_ORACLE_URL=jdbc:oracle:thin:@oracle:1521/XEPDB1
-      - SPRING_DATASOURCE_ORACLE_USERNAME=system
-      - SPRING_DATASOURCE_ORACLE_PASSWORD=oracle
-      - SENTRY_DSN=http://sentry:9000
+      - OTEL_TRACES_EXPORTER=none
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_LOGS_EXPORTER=none
     depends_on:
       - mysql
       - oracle

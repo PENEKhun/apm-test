@@ -9,7 +9,7 @@ spring:
 mysql:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: jdbc:mysql://localhost:3306/apmtest?useSSL=false&serverTimezone=UTC
+    jdbc-url: jdbc:mysql://localhost:3306/apmtest?useSSL=false&allowPublicKeyRetrieval=true
     username: user
     password: password
   jpa:
@@ -41,7 +41,9 @@ management:
       show-details: always
 
 sentry:
-  dsn: ${SENTRY_DSN:}
-  environment: local
+  dsn: http://81e8ea40ce8a7591b6bd7beb7c359ee2@localhost:9000/2
+  environment: development
+  sample-rate: 1.0
+  debug: true
   traces-sample-rate: 1.0
-  debug: true 
+  send-default-pii: true

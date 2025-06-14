@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'io.sentry.jvm.gradle' version '3.12.0'
 }
 
 group = 'com.example'
@@ -25,16 +26,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    
+
     // MySQL
     implementation 'com.mysql:mysql-connector-j'
-    
+
     // Oracle
     implementation 'com.oracle.database.jdbc:ojdbc8'
-    
+
     // Sentry
-    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:7.11.0'
-    
+    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:8.13.3'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -42,4 +43,13 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-} 
+}
+
+sentry {
+    // Disable source context to prevent Sentry CLI from trying to connect to the server during build
+    includeSourceContext = false
+
+    org = 'sentry'
+    projectName = 'apm-test'
+    authToken = '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'
+}
