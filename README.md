@@ -22,6 +22,8 @@ cd self-hosted
 ./install.sh
 ```
 
+  - JAVA 프로젝트 생성
+
 
 ### 2. 프로젝트 클론
 ```bash
@@ -31,6 +33,30 @@ git clone https://github.com/PENEKhun/apm-test.git
 ### 3. 데이터베이스 실행
 ```bash
 docker compose up -d
+```
+
+### 4. Env 수정
+
+- application.yml
+
+```yml
+sentry:
+  dsn: 앞에서 만든 dsn
+```
+
+- build.gradle
+
+```groovy
+sentry {
+    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+    // This enables source context, allowing you to see your source
+    // code as part of your stack traces in Sentry.
+    includeSourceContext = false
+
+    org = 'sentry'
+    projectName = 'apm-test'
+    authToken = '앞에서 만든 토큰'
+}
 ```
 
 ## API 엔드포인트
