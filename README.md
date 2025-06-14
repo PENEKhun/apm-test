@@ -20,6 +20,8 @@
 git clone https://github.com/getsentry/self-hosted.git
 cd self-hosted
 ./install.sh
+
+# 기다렸다가 관리자 이메일 비밀번호 입력하라는 란 나오면 입력
 ```
 
   - JAVA 프로젝트 생성
@@ -61,34 +63,12 @@ sentry {
 
 ## API 엔드포인트
 
-### 기본 테스트
-- GET `/api/test`
-  - 기본 연결 테스트용 엔드포인트
+1. API 테스트
 
-### MySQL 테스트
-- GET `/api/mysql/test`
-- POST `/api/mysql/test`
+`apm-test.http`에 API 실행이 담겨있음.
+이것저것 실행하고 결과 확인하면 됨.
 
-### Oracle 테스트
-- GET `/api/oracle/test`
-- POST `/api/oracle/test`
-
-### Sentry 테스트
-- GET `/api/sentry-test`
-
-## TODO
-
-
-#### Sentry 초기 설정
-1. 데이터베이스 마이그레이션 및 초기 설정
-```bash
-# Sentry 컨테이너에 접속하여 초기화 명령어 실행
-docker compose exec sentry sentry upgrade
-
-# 프롬프트가 나타나면 'Y'를 입력하여 관리자 계정 생성
-# 이메일과 비밀번호를 입력하여 계정 생성
-```
-
-3. 웹 인터페이스 접속
+2. 웹 인터페이스 접속해서 확인
 - URL: http://localhost:9000
 - 생성한 관리자 계정으로 로그인
+

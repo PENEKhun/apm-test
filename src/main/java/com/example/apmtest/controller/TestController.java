@@ -87,6 +87,8 @@ public class TestController {
             return ResponseEntity.ok(user);
         } catch (DataIntegrityViolationException e) {
             log.error("Error creating invalid user", e);
+            // Ensure Sentry captures this exception
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error: " + e.getMessage());
         }

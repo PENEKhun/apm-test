@@ -89,15 +89,23 @@ public class TestService {
 
     /**
      * Intentionally causes a database error by trying to create a user with invalid data
-     * This will generate a DataIntegrityViolationException if there's a unique constraint on email
+     * This will generate a DataIntegrityViolationException due to null values for required fields
      */
     @Transactional
     public User createInvalidUser() {
         try {
-            // Create a user with null values which might violate not-null constraints
+            // Create a user with null values which will violate not-null constraints
             User user = new User();
-            // Depending on the database constraints, this might cause an error
-            return userRepository.save(user);
+            // This will cause a DataIntegrityViolationException because name and email are required
+            User savedUser = userRepository.save(user);
+
+            // If we get here, it means the save operation succeeded, which is not what we want
+            // Let's throw an exception manually to ensure it's captured by Sentry
+            if (savedUser.getName() == null || savedUser.getEmail() == null) {
+                throw new DataIntegrityViolationException("User created with null values for required fields");
+            }
+
+            return savedUser;
         } catch (DataIntegrityViolationException e) {
             // Log the exception to Sentry
             Sentry.captureException(e);
