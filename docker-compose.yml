@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: apm-test-mysql
+    container_name: apm-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: apmtest
@@ -18,7 +18,7 @@ services:
 
   oracle:
     image: gvenzl/oracle-xe:latest
-    container_name: apm-test-oracle
+    container_name: apm-oracle
     environment:
       ORACLE_PASSWORD: oracle
     ports:
@@ -28,58 +28,10 @@ services:
     networks:
       - apm-network
 
-  # Sentry 서비스들
-  redis:
-    image: redis:6.2-alpine
-    container_name: apm-test-redis
-    networks:
-      - apm-network
-
-  postgres:
-    image: postgres:14
-    container_name: apm-test-postgres
-    environment:
-      POSTGRES_USER: sentry
-      POSTGRES_PASSWORD: sentry
-      POSTGRES_DB: sentry
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - apm-network
-
-  clickhouse:
-    image: clickhouse/clickhouse-server:22.3
-    container_name: apm-test-clickhouse
-    volumes:
-      - clickhouse-data:/var/lib/clickhouse
-    networks:
-      - apm-network
-
-  sentry:
-    image: getsentry/sentry:latest
-    container_name: apm-test-sentry
-    depends_on:
-      - redis
-      - postgres
-      - clickhouse
-    environment:
-      SENTRY_SECRET_KEY: 'your-secret-key-here'
-      SENTRY_POSTGRES_HOST: postgres
-      SENTRY_DB_USER: sentry
-      SENTRY_DB_PASSWORD: sentry
-      SENTRY_REDIS_HOST: redis
-      SENTRY_CLICKHOUSE_HOST: clickhouse
-    ports:
-      - "9000:9000"
-    networks:
-      - apm-network
-
 networks:
   apm-network:
     driver: bridge
 
 volumes:
   mysql-data:
-  oracle-data:
-  postgres-data:
-  clickhouse-data: 
+  oracle-data: 

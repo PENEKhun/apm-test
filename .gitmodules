@@ -1,0 +1,3 @@
+[submodule "sentry-arm"]
+	path = sentry-arm
+	url = https://github.com/Sentry-ARM/self-hosted.git
