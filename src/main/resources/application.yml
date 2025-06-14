@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: apm-test
+  
+  # MySQL 설정
+  datasource:
+    mysql:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/apmtest?useSSL=false&serverTimezone=UTC
+      username: user
+      password: password
+    oracle:
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+      username: system
+      password: oracle
+  
+  # JPA 설정
+  jpa:
+    mysql:
+      database-platform: org.hibernate.dialect.MySQLDialect
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+    oracle:
+      database-platform: org.hibernate.dialect.OracleDialect
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always 
