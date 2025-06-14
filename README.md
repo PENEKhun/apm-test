@@ -5,6 +5,8 @@
   - [x] MySQL 8.0
   - [x] Oracle XE
 - [x] Sentry
+  - [ ] 개인적으로 메소드 인자 추적만 되면 충분히 사용할 수 있을 것 같음.
+    - AOP로 어떻게 할 지 고민 중...
 - [ ] SigNoz
 - [ ] Datadog
 
