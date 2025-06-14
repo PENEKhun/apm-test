@@ -1,6 +1,8 @@
 package com.example.apmtest.aspect;
 
+import io.sentry.ISpan;
 import io.sentry.Sentry;
+import io.sentry.SpanStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,43 +19,47 @@ public class SentryAspect {
 
     @Around("execution(* com.example.apmtest.service.*.*(..))")
     public Object logArgumentsToSentry(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("[SentryAspect] AOP 적용됨 - {}", joinPoint.getSignature());
-
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
-        Object[] args = joinPoint.getArgs();
-        String[] parameterNames = signature.getParameterNames();
+        String className = method.getDeclaringClass().getSimpleName();
+        String methodName = method.getName();
+        String spanName = className + "." + methodName;
 
-        log.info("Method: {}", method.getName());
-        log.info("args.length: {}", args.length);
-        log.info("parameterNames.length: {}", parameterNames != null ? parameterNames.length : "null");
+        var parentSpan = Sentry.getSpan();
+        if (parentSpan != null) {
+            ISpan span = parentSpan.startChild(spanName, "AOP-traced service call");
+            try {
+                span.setDescription("Called " + spanName);
 
-        Sentry.configureScope(scope -> {
-            for (int i = 0; i < args.length; i++) {
-                String name = (parameterNames != null && parameterNames.length > i && parameterNames[i] != null)
-                        ? parameterNames[i]
-                        : "arg" + i;
+                Object[] args = joinPoint.getArgs();
+                String[] parameterNames = signature.getParameterNames();
 
-                Object value = args[i];
+                for (int i = 0; i < args.length; i++) {
+                    String paramName = (parameterNames != null && i < parameterNames.length && parameterNames[i] != null)
+                            ? parameterNames[i]
+                            : "arg" + i;
 
-                try {
-                    // toString() 오류 방지
-                    String safeString = (value != null) ? String.valueOf(value) : "null";
-                    log.info("Captured arg {} = {}", name, safeString);
-
-                    if (!name.toLowerCase().contains("password") && !name.toLowerCase().contains("token")) {
-                        scope.setExtra("arg_" + name, safeString);
+                    Object value = args[i];
+                    if (paramName.toLowerCase().contains("password") || paramName.toLowerCase().contains("token")) {
+                        span.setData("arg_" + paramName, "[마스킹 처리됨]");
                     } else {
-                        scope.setExtra("arg_" + name, "[마스킹 처리됨]");
+                        span.setData("arg_" + paramName, String.valueOf(value));
                     }
-                } catch (Exception e) {
-                    log.warn("❗ 예외 발생 - 파라미터 [{}]는 toString 중 오류 발생: {}", name, e.toString());
                 }
+
+                Object result = joinPoint.proceed();
+                span.setStatus(SpanStatus.OK);
+                return result;
+            } catch (Throwable ex) {
+                span.setStatus(SpanStatus.INTERNAL_ERROR);
+                throw ex;
+            } finally {
+                span.finish();
             }
+        }
 
-        });
-
-        return joinPoint.proceed(); // 원래 메서드 실행
+        // Sentry 트레이싱 컨텍스트 없을 경우 fallback
+        return joinPoint.proceed();
     }
 }

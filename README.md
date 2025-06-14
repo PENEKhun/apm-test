@@ -5,7 +5,7 @@
   - [x] MySQL 8.0
   - [x] Oracle XE
 - [x] Sentry
-  - [ ] 개인적으로 메소드 인자 추적만 되면 충분히 사용할 수 있을 것 같음.
+  - [x] 개인적으로 메소드 인자 추적만 되면 충분히 사용할 수 있을 것 같음.
     - AOP로 어떻게 할 지 고민 중...
 - [ ] SigNoz
 - [ ] Datadog
@@ -82,3 +82,22 @@ export OTEL_LOGS_EXPORTER=none;OTEL_METRICS_EXPORTER=none;OTEL_TRACES_EXPORTER=n
 - URL: http://localhost:9000
 - 생성한 관리자 계정으로 로그인
 
+
+
+### Sentry
+
+- 프로젝트 화면
+
+  ![img_1.png](img/img_1.png)
+
+- exception 발생하면 시간선으로 어떤게 콜 되었는지 볼 수 있음.
+
+  ![img_2.png](img/img_2.png)
+
+- AOP로 서비스레이어 호출 감시 추가
+
+  ![img.png](img/img.png)
+
+- 이런식으로 쿼리까지 확인할 수 있네
+
+  ![img_3.png](img/img_3.png)
