@@ -1,18 +1,27 @@
 # apm test
 
-- Java 17
-- Spring Boot 3.2.3
-- MySQL 8.0
-- Oracle XE
-- Docker
-- Sentry (ARM64 지원 버전)
+- [ ] Spring Boot 앱
+- [x] Docker Compose
+  - [x] MySQL 8.0
+  - [x] Oracle XE
+- [x] Sentry
+- [ ] SigNoz
+- [ ] Datadog
 
 ## 실행 방법
 
 ### 1. 사전 요구사항
-- Java 17 이상
-- Docker 및 Docker Compose
-- Git
+
+- Sentry Up
+
+> apple 실리콘 모델 기준 (처음에 오래걸리고 리소스 많이 잡아먹음 참고바람)
+
+```bash
+git clone https://github.com/getsentry/self-hosted.git
+cd self-hosted
+./install.sh
+```
+
 
 ### 2. 프로젝트 클론
 ```bash
@@ -21,7 +30,6 @@ git clone https://github.com/PENEKhun/apm-test.git
 
 ### 3. 데이터베이스 실행
 ```bash
-# Docker Compose로 모든 서비스 실행 (MySQL, Oracle, Sentry, Spring Boot 애플리케이션)
 docker compose up -d
 ```
 
@@ -43,9 +51,7 @@ docker compose up -d
 - GET `/api/sentry-test`
 
 ## TODO
-- [] SigNoz
-- [] Sentry
-- [] Datadog
+
 
 #### Sentry 초기 설정
 1. 데이터베이스 마이그레이션 및 초기 설정

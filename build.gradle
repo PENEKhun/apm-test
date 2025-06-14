@@ -53,5 +53,5 @@ sentry {
 
     org = 'sentry'
     projectName = 'apm-test'
-    authToken = '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'
+    authToken = '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'
 }

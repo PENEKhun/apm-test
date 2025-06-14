@@ -41,7 +41,7 @@ management:
       show-details: always
 
 sentry:
-  dsn: http://81e8ea40ce8a7591b6bd7beb7c359ee2@localhost:9000/2
-#  debug: true
+  dsn: http://316a68a710445f5eefbebdcba73e1abf@localhost:9000/3
+  debug: true
 #  traces-sample-rate: 1.0
   send-default-pii: true
